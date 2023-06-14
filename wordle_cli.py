@@ -167,7 +167,7 @@ def get_guess(guesses, num_guesses, all_answers, allowed_words):
 
 # --------------------------------------------------
 def update_letters(guesses, keyboard, answer_in):
-    """colors letters (green, yellow, black)
+    """colors letters (green, yellow, gray)
     -------------------------------------------------------
     Dupe detection example: 
     
@@ -182,13 +182,13 @@ def update_letters(guesses, keyboard, answer_in):
             color yellow
             remove from answer (no need to alter guess at this point)
         else
-            color black
+            color gray
     """
 
     # ansi color codes (backgrounds)
     green = '\033[48;5;22m'
     yellow = '\033[48;5;100m'
-    black = '\033[48;5;232m'    
+    gray = '\033[48;5;240m'    
 
     # for indexing (0 -> 6 guesses)
     num_guess = len(guesses) - 1
@@ -211,7 +211,7 @@ def update_letters(guesses, keyboard, answer_in):
             answer[i] = '*'
             guess[i] = '*'
             
-    # dupe detection (2nd pass: yellow & black)
+    # dupe detection (2nd pass: yellow & gray)
     # if letter in wrong position: color letter yellow & remove from answer
     # for letter in guess:
     for i, letter in enumerate(guess):
@@ -224,9 +224,9 @@ def update_letters(guesses, keyboard, answer_in):
             colors[i] = yellow
             # remove letter (from answer)
             answer.remove(letter)
-        # else: # color black
+        # else: # color gray
         else:
-            colors[i] = black
+            colors[i] = gray
 
     # re-init vars for keyboard update
     guess = list(guesses[num_guess].guess)
@@ -235,9 +235,9 @@ def update_letters(guesses, keyboard, answer_in):
     # update the keyboard colors
     # note: never downgrades (g->y or y->b), but can upgrade (y->g)
     for i, letter in enumerate(guess):
-        # if not set and not in answer -> black
+        # if not set and not in answer -> gray
         if letter not in answer:
-            keyboard[letter] = black
+            keyboard[letter] = gray
         # if not set and in right spot -> green
         elif letter == answer[i]:
             keyboard[letter] = green
